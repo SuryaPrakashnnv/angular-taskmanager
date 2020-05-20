@@ -1,0 +1,24 @@
+<h3>Users :</h3>
+<div class="row">
+  
+  <div class="col-8 mx-auto m-2" *ngFor="let user of users; let i = index">
+    <div class="card">
+      <!-- <img src="https://source.unsplash.com/random"  height="150" class="card-img-top img-responsive" alt="Random Img"> -->
+      <img src="https://source.unsplash.com/600x300/?beauty&random=getRandom()"  class="card-img-top img-responsive" height="100" alt="Random Img">
+      <div class="card-body">
+        <h5 class="card-title">{{user.id}} {{user.name}}</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
+        </p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><small>Phone:</small><br>{{user.phone}}</li>
+        <li class="list-group-item"><small>Email:</small><br>{{user.email}}</li>
+        <li class="list-group-item"><small>Website:</small><br>{{user.website}}</li>
+      </ul>
+      <div class="card-footer">
+        <button class="btn btn-primary">Edit</button>
+        <button class="btn btn-warning">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

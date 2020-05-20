@@ -1,0 +1,202 @@
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active">Dashboard</li>
+  </ol>
+</nav>
+<h3>Dashboard <small>{{ toDay | date: "longDate" }}</small></h3>
+
+<div class="row">
+  <div class="col-md-3 col-sm-12 s-bg-light">
+
+    <div class="row mt-2">
+      <div class="col-11 text-white text-center mx-auto rounded pt-2 pb-2 s-header">
+        {{ designation | uppercase }}
+      </div>
+      <div class="col-12 text-center mt-2">
+        <img src="../../assets/img/surya_propic.jpg" alt="User" class="s-user-img">
+      </div>
+      <div class="col-12 text-center p-1">
+        {{ userName | lowercase }}
+        
+      </div>
+      
+      <div class="col-11 pt-2 pb-2 text-center mx-auto s-uppercase">
+        Team Summary
+      </div>
+      <div class="col-12 mb-3">
+        <div class="list-group">
+          <div class="list-group-item d-flex justify-content-between align-items-center s-border-none mb-1">
+            No. of Team Members
+            <span class="badge badge-primary badge-pill">{{ noOfTeamMembers }}</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between align-items-center s-border-none mb-1">
+            Total Cost of All Projects
+            <span class="badge badge-primary badge-pill">$ {{ totalCostOfAllProjects }}</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between align-items-center s-border-none mb-1">
+            Pending Tasks
+            <span class="badge badge-primary badge-pill">{{ pendingTasks }}</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between align-items-center s-border-none mb-1">
+            Upcoming Projects
+            <span class="badge badge-primary badge-pill">$ {{ upcomingProjects | percent }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 text-center pt-2 pb-2">Clients</div>
+        <div class="col-12 pb-5">
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let client of clients" class="list-group-item">{{ client | slice: 0 : 15 }}</li>
+          </ul>
+          <!-- it was can display the json data  -->
+          <!-- {{ teamMembersSummary | json }} -->
+        </div>
+
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-12 s-bg-white">
+
+    <div class="row">
+      <div class="col-12 pb-2">
+        <div class="row mt-2">
+
+          <div class="col-6 text-left">
+            <div class="dropdown">
+              <button class="btn btn-info dropdown-toggle" type="button" id="ddMenuBtn" data-toggle="dropdown">Project A</button>
+              <div class="dropdown-menu">
+                <a *ngFor="let project of projects" href="#" onclick="return false" (click)="onProjectChange($event)" class="dropdown-item">{{ project }}</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 text-right">
+            <div class="dropdown">
+              <button class="btn btn-info dropdown-toggle" type="button" id="ddMenuBtn" data-toggle="dropdown">2020</button>
+              <div class="dropdown-menu">
+                <a *ngFor="let year of years" href="#" onclick="return false" class="dropdown-item">
+                  <span [ngSwitch]="year">
+                    <span *ngSwitchCase="'2019'" style="color:blueviolet">{{ year }}</span>
+                    <span *ngSwitchCase="'2018'" style="color:chocolate">{{ year }}</span>
+                    <span *ngSwitchCase="'2017'" style="color:darkgreen">{{ year }}</span>
+                    <span *ngSwitchDefault style="color:darkblue">{{ year }}</span>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-11 mx-auto mt-1 text-white text-center pb-2 pt-2 rounded s-header">
+        Project-Briefing
+      </div>
+      <div class="col-12 ">
+        <table class="table table-borderless">
+          <tr>
+            <td>Project Cost</td>
+            <td>{{ projectCost | currency: "INR" }}</td>
+          </tr>
+          <tr>
+            <td>Current Expenditure</td>
+            <td>{{ currentExpenditure | currency: "INR" }}</td>
+          </tr>
+          <tr>
+            <td>Available Funds</td>
+            <td>{{ availableFunds | currency: "INR" }}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-11 mx-auto mt-1 text-white text-center pb-2 pt-2 rounded s-header">
+        Team Members Summary
+      </div>
+      <div class="col-12">
+        <table class="table">
+          <tr>
+            <th>Region</th>
+            <th>Team Members Count</th>
+            <th>Temporarily Unavailable Members</th>
+          </tr>
+          <tr *ngFor="let team of teamMembersSummary">
+            <td>{{ team.region }}</td>
+            <td>{{ team.teamMembersCount }}</td>
+            <td>{{ team.unavailableMembers }}</td>
+          </tr>
+        </table>
+
+        <!-- {{ teamMembersSummary | json }} -->
+      </div>
+    </div>
+
+
+  </div>
+  <div class="col-md-3 col-sm-12 s-bg-light">
+    <div class="row mt-2">
+      <div class="col-11 text-white text-center mx-auto rounded pt-2 pb-2 s-header">
+        Team Members
+      </div>
+      <div class="col-lg-12 pt-2">
+        <div class="accordion" id="accordion1">
+
+          <div class="card" *ngFor="let teamGroup of teamMembers; let i = index">
+
+            <!-- <div *ngIf="i != 0"> -->
+
+              <div class="card-header bg-secondary" id="card1">
+                <h2 class="mb-0">
+                  <button class="btn btn-link text-white" type="button" data-toggle="collapse"
+                  [attr.data-target]="'#cardbody'+i">{{ teamGroup.region }}</button>
+                </h2>
+              </div>
+              <div class="collapse"  [id]="'cardbody'+i" data-parent="#accordion1"
+              [ngClass]="(i == 0) ? 'show' : ''">
+              <div class="card-body">
+
+                <div *ngIf="(i % 2 == 0); then firstTemplate; else secondTemplate"></div>
+
+                <ng-template #firstTemplate>
+                  <div class="card mb-2" *ngFor="let member of teamGroup.members">
+                    <div class="card-header bg-primary text-white">
+                      #{{ member.id }} {{ member.name }}
+                    </div>
+                    <div class="card-body">
+                      {{ member.status }}
+                    </div>
+                  </div>
+                </ng-template>
+                
+                <ng-template #secondTemplate>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let details of teamGroup.members">
+                        <td>{{ details.id }}</td>
+                        <td [style.color]="(details.status == 'Busy') ? 'red' : ''">{{ details.name }}</td>
+                        <td><i class="fa fa-phone"></i> {{ details.status }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+                
+
+
+              </div>
+            </div>
+
+          <!-- </div> -->
+            
+
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
